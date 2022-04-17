@@ -9,7 +9,7 @@ console.log('Hello');
     },
     body: JSON.stringify({rasp : myString}),
   })
-  const answer = await response.json();
+  const answer = await response.json(); //thanks
   console.log(answer);
 } */
 function test() {
