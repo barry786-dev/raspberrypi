@@ -12,7 +12,10 @@
   "dependencies": {
     "express": "^4.17.3",
     "gpio": "^0.2.10",
+    "johnny-five": "^2.1.0",
     "onoff": "^6.0.3",
+    "raspi-io": "^11.0.0",
+    "rpio": "^2.4.2",
     "socket.io": "^4.4.1",
     "socket.io-client": "^4.4.1"
   }
