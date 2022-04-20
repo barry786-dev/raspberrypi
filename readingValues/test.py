@@ -4,9 +4,8 @@ import RPi.GPIO as GPIO
 import time
 
 GPIO.setmode(GPIO.BOARD)
-
 #define the pin that goes to the circuit
-pin_to_circuit = 18
+""" pin_to_circuit = 23
 
 def rc_time (pin_to_circuit):
     count = 0
@@ -33,4 +32,4 @@ try:
 except KeyboardInterrupt:
     pass
 finally:
-    GPIO.cleanup()
+    GPIO.cleanup() """

@@ -1,15 +1,14 @@
 'use strict';
 
-var Gpio = require('onoff').Gpio,
-  pr = new Gpio(24, 'in'),
-  readInterval = setInterval(getPrValue, 1000);
-pr.writeSync(0);
+const Gpio = require('onoff').Gpio;
+const pr = new Gpio(25, 'in');
+const readInterval = setInterval(getPrValue, 1000);
 function getPrValue() {
-  
   console.log('Value of photo resistance : ' + pr.readSync());
 }
 
 process.on('SIGINT', function () {
+  pr.writeSync(0);
   clearInterval(readInterval);
   pr.unexport();
 });

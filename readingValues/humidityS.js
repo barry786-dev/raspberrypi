@@ -28,7 +28,7 @@ rpio.open(23, rpio.INPUT);
    console.log('Value of photo resistance : ' + rpio.read(23));
  } */
 
- const five = require('johnny-five');
+/*  const five = require('johnny-five');
  var Raspi = require('raspi-io').RaspiIO;
   const board = new five.Board({
     io: new Raspi(),
@@ -39,4 +39,28 @@ rpio.open(23, rpio.INPUT);
     soilSensor.on('data', () => {
       console.log(sensor.value);
     });
-  });
+  }); */
+  var gpio = require('rpi-gpio');
+  var gpiop = gpio.promise;
+
+  gpiop
+    .setup(21, gpio.DIR_OUT)
+    .then(() => {
+      console.log('on')
+      return gpiop.write(21, true); // ON
+    })
+    .catch((err) => {
+      console.log('Error: ', err.toString());
+    });
+
+    setTimeout(() => {
+      gpiop
+        .setup(21, gpio.DIR_OUT)
+        .then(() => {
+          console.log('off')
+          return gpiop.write(21, false); // off
+        })
+        .catch((err) => {
+          console.log('Error: ', err.toString());
+        });
+    }, 3500);
