@@ -36,6 +36,11 @@ socket.on('pumpEventServerToRasp', (data) => {
 
 setInterval(() => {
   pumpState = pump.readSync();
+  if (pumpState === 0) {
+    pumpState = 1;
+  } else if (pumpState === 1) {
+    pumpState = 0;
+  }
   lightState = light.readSync();
   SoilHumidityState = SoilHumidity.readSync();
   socket.emit('raspSensorsValues', [
