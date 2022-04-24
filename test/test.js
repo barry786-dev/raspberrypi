@@ -13,7 +13,8 @@ console.log('Hello');
   console.log(answer);
 } */
 function test() {
-  const serialNumber = 'AB004S100001'; // do not forget to beycrept it later
+  const serialNumber = 'AB004S100002';
+  const deviceUniqeCode = ''  // do not forget to beycrept it later
   let LightValue = 0;
   const LightInt = setInterval(() => {
     if (LightValue === 0) {

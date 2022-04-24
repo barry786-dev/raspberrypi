@@ -1,5 +1,3 @@
-// const express = require('express');
-// const app = express();
 const RaspIo = require('socket.io-client');
 const socket = RaspIo('http://dci-lap:5900/', {
   withCredentials: true,
@@ -9,7 +7,11 @@ socket.on('connect', () => {
 });
 
 const Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
-const pump = new Gpio(21, 'high'); //use GPIO pin 24, and specify that it is output
+const pump = new Gpio(21, 'high'); //use GPIO pin 21, and specify that it is output
+const light = new Gpio(18, 'in'); //use GPIO pin 18, and specify that it is in
+const SoilHumidity = new Gpio(23, 'in'); //use GPIO pin 23, and specify that it is in
+const serialNumber = 'AB004S100002';
+const deviceUniqueCode = '123!qweR'; // do not forget to beycrept it later
 /* if (pump.readSync() === 0) {
   //check the pin state, if the state is 0 (or off)
   socket.emit('PumpStatus', { pump: false });
@@ -18,10 +20,12 @@ const pump = new Gpio(21, 'high'); //use GPIO pin 24, and specify that it is out
 } */
 
 socket.on('raspEvent', (data) => {
+  // listen to message from server (liveChart action)
   console.log('message from the server:', data);
-  socket.emit('serverEventRasp', { value: 'light', date: Date.now() });
+  socket.emit('serverEventRasp', { value: 'light', date: Date.now() }); //send message to server (liveChart action)
 });
 socket.on('pumpEventServerToRasp', (data) => {
+  // listen to message from server (pump action / userControllers)
   console.log('message from the Pump:', data);
   if (data.pump === true) {
     pump.writeSync(0); // Turn Pump on
@@ -29,4 +33,17 @@ socket.on('pumpEventServerToRasp', (data) => {
     pump.writeSync(1); // Turn Pump off
   }
 });
-// const server = app.listen('5500',console.log('raspServer is running on port 5500'));
+
+setInterval(() => {
+  pumpState = pump.readSync();
+  lightState = light.readSync();
+  SoilHumidityState = SoilHumidity.readSync();
+  socket.emit('raspSensorsValues', [
+    serialNumber,
+    { light: lightState, date: Date.now() },
+    { SoilHumidity: SoilHumidityState, date: Date.now() },
+    { pump: pumpState, date: Date.now() },
+    deviceUniqueCode,
+  ]);
+  console.log(pumpState + ' ' + lightState + ' ' + SoilHumidityState);
+}, 6 * 60 * 60 * 1000); // check the sensors and snd values each six hours
