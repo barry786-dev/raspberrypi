@@ -1,9 +1,9 @@
 const RaspIo = require('socket.io-client');
-const socket = RaspIo('http://dci-lap:5900/', {
+const socket = RaspIo('https://mygadeden.herokuapp.com/', {
   withCredentials: true,
 });
 socket.on('connect', () => {
-  console.log('connected to localhost:5900');
+  console.log('connected to https://mygadeden.herokuapp.com/');
 });
 
 const Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
